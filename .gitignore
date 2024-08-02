@@ -1,5 +1,7 @@
-# Ignorar node_modules en la carpeta backend
+# Ignore backend files/folders
 /backend/node_modules/
+/backend/.env*.local
 
-# Ignorar node_modules en la carpeta frontend
+# Ignorar frontend files/folders
 /frontend/node_modules/
+/frontend/.env*.local
