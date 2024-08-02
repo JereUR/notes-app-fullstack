@@ -1,9 +1,0 @@
-/node_modules
-
-# Ignore backend files/folders
-/backend/node_modules
-/backend/.env*.local
-
-# Ignorar frontend files/folders
-/frontend/node_modules
-/frontend/.env*.local
