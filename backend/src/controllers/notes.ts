@@ -57,3 +57,44 @@ export const createNote: RequestHandler<
     next(error)
   }
 }
+
+interface UpdateNoteParams {
+  noteId: string
+}
+
+interface UpdateNoteBody {
+  title?: string
+  text?: string
+}
+
+export const updateNote: RequestHandler<
+  UpdateNoteParams,
+  unknown,
+  UpdateNoteBody,
+  unknown
+> = async (req, res, next) => {
+  const id = req.params.noteId
+  const newTitle = req.body.title
+  const newText = req.body.text
+
+  try {
+    if (!mongoose.isValidObjectId(id)) {
+      throw createHttpError(400, 'Invalid note ID')
+    }
+
+    if (!newTitle) {
+      throw createHttpError(400, 'Note must have a title')
+    }
+
+    const updatedNote = await NoteModel.findByIdAndUpdate(
+      id,
+      { title: newTitle, text: newText },
+      { new: true }
+    ).exec()
+
+    if (!updatedNote) throw createHttpError(404, 'Note not found')
+    res.status(200).json(updatedNote)
+  } catch (error) {
+    next(error)
+  }
+}
