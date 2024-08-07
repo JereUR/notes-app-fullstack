@@ -22,3 +22,19 @@ export async function fecthNotes(): Promise<Note[]> {
   })
   return response.json()
 }
+
+export interface NoteInput {
+  title: string
+  text?: string
+}
+
+export async function createNote(note: NoteInput): Promise<Note> {
+  const response = await fecthData('/api/notes', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(note)
+  })
+  return response.json()
+}
