@@ -1,20 +1,5 @@
 import { Note } from '../models/note'
-
-async function fecthData(input: RequestInfo, init?: RequestInit) {
-  try {
-    const response = await fetch(input, init)
-    if (response.ok) {
-      return response
-    } else {
-      const errorBody = await response.json()
-      const errorMessage = errorBody.error
-      throw Error(errorMessage)
-    }
-  } catch (error) {
-    console.error('Error:', error)
-    throw error
-  }
-}
+import { fecthData } from '../utils/FetchData'
 
 export async function fecthNotes(): Promise<Note[]> {
   const response = await fecthData('/api/notes', {
