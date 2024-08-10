@@ -67,7 +67,7 @@ const NotesPageLoggedInView = () => {
   return (
     <>
       <Button
-        className={`m-4 ${stylesUtils.blockCenter} ${stylesUtils.flexCenter}`}
+        className={`mb-4 ${stylesUtils.blockCenter} ${stylesUtils.flexCenter}`}
         onClick={() => setShowAddEditNoteDialog(true)}
       >
         <FaPlus />
