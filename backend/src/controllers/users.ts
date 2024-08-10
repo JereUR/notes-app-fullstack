@@ -5,14 +5,8 @@ import bcrypt from 'bcrypt'
 import UserModel from '../models/user'
 
 export const getAuthenticatedUser: RequestHandler = async (req, res, next) => {
-  const authenticatedUserId = req.session.userId
-
   try {
-    if (!authenticatedUserId) {
-      throw createHttpError(401, 'Not authenticated')
-    }
-
-    const user = await UserModel.findById(authenticatedUserId)
+    const user = await UserModel.findById(req.session.userId)
       .select('+email')
       .exec()
     if (!user) throw createHttpError(404, 'User not found')
