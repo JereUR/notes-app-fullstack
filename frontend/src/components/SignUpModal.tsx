@@ -4,8 +4,10 @@ import stylesUtils from '../styles/utils.module.css'
 import { User } from '../models/user'
 import { SignUpCredentials } from '../network/users_api'
 import * as UsersApi from '../network/users_api'
-import { Button, Form, Modal } from 'react-bootstrap'
+import { Alert, Button, Form, Modal } from 'react-bootstrap'
 import TextInputField from './form/TextInputField'
+import { useState } from 'react'
+import { ConflictError } from '../errors/http_errors'
 
 interface SignUpModalProps {
   onDismiss: () => void
@@ -13,6 +15,8 @@ interface SignUpModalProps {
 }
 
 const SignUpModal = ({ onDismiss, onSignUpSuccessful }: SignUpModalProps) => {
+  const [errorText, setErrorText] = useState<string | null>(null)
+
   const {
     register,
     handleSubmit,
@@ -25,8 +29,12 @@ const SignUpModal = ({ onDismiss, onSignUpSuccessful }: SignUpModalProps) => {
       onSignUpSuccessful(newUser)
       onDismiss()
     } catch (error) {
+      if (error instanceof ConflictError) {
+        setErrorText(error.message)
+      } else {
+        alert(error)
+      }
       console.error(error)
-      alert(error)
     }
   }
 
@@ -36,6 +44,7 @@ const SignUpModal = ({ onDismiss, onSignUpSuccessful }: SignUpModalProps) => {
         <Modal.Title>Sign Up</Modal.Title>
       </Modal.Header>
       <Modal.Body>
+        {errorText && <Alert variant="danger">{errorText}</Alert>}
         <Form onSubmit={handleSubmit(onSubmit)}>
           <TextInputField
             name="username"
